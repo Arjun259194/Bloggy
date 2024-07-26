@@ -8,7 +8,7 @@ generator client {
 }
 
 model User {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   lastName      String
   countryCode   String
@@ -31,7 +31,7 @@ model User {
 }
 
 model Blog {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   content       String
   category      Category    @relation(fields: [categoryId], references: [id])
@@ -39,7 +39,7 @@ model Blog {
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
   subcategoryId String      @db.ObjectId
   tags          String[]
-  uploader      User        @relation("UserBlogs", fields: [uploaderId], references: [id])
+  uploader      User        @relation("UserBlogs", fields: [uploaderId], references: [id], onDelete: Cascade)
   uploaderId    String      @db.ObjectId
   comments      Comment[]
   likes         Like[]
@@ -49,8 +49,8 @@ model Blog {
 }
 
 model Category {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  name          String       @unique
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  name          String        @unique
   subcategories Subcategory[]
   Blog          Blog[]
 
@@ -60,7 +60,7 @@ model Category {
 model Subcategory {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String   @db.ObjectId
   blogs      Blog[]
 
@@ -68,43 +68,43 @@ model Subcategory {
 }
 
 model Comment {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
-  blog    Blog     @relation(fields: [blogId], references: [id])
-  blogId  String   @db.ObjectId
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String   @db.ObjectId
+  blog    Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId  String @db.ObjectId
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String @db.ObjectId
 
   @@map("comments")
 }
 
 model Like {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
-  blog   Blog    @relation(fields: [blogId], references: [id])
-  blogId String  @db.ObjectId
-  user   User    @relation(fields: [userId], references: [id])
-  userId String  @db.ObjectId
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
 
   @@map("likes")
 }
 
 model Rating {
-  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
   value  Int
-  blog   Blog    @relation(fields: [blogId], references: [id])
-  blogId String  @db.ObjectId
-  user   User    @relation(fields: [userId], references: [id])
-  userId String  @db.ObjectId
+  blog   Blog   @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  blogId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @db.ObjectId
 
   @@map("ratings")
 }
 
 model Following {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  follower    User    @relation("UserFollowers", fields: [followerId], references: [id])
-  followerId  String  @db.ObjectId
-  following   User    @relation("UserFollowing", fields: [followingId], references: [id])
-  followingId String  @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  follower    User   @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  String @db.ObjectId
+  following   User   @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId String @db.ObjectId
 
   @@map("followings")
 }
@@ -114,4 +114,3 @@ enum Role {
   USER
   BLOG_UPLOADER
 }
-

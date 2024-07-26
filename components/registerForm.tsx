@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import useForm from "@/hooks/useForm";
 import toast from "react-hot-toast";
 import axios from "axios";
-import Button from "./UI/Button";
 import { getCounrtyDialCode, toastPromise } from "@/util";
+import { Button } from "./ui/button";
 
 interface Country {
   name: string;
@@ -46,8 +46,6 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
     confirmPassword: "",
     role: "USER",
   });
-
-  useEffect(() => console.table(state), [state]);
 
   useEffect(() => {
     try {
@@ -133,7 +131,7 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
 
   return (
     <form
-      className="space-y-5"
+      className="space-y-5 mx-5 md:mx-0"
       action={async (formdata) => {
         const p = props.action(formdata);
         toastPromise(

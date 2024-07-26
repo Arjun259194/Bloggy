@@ -1,6 +1,6 @@
 "use client";
-import Button from "./UI/Button";
 import { toastPromise } from "@/util";
+import { Button } from "./ui/button";
 
 export default function LoginForm(props: {
   action: (arg1: FormData) => Promise<void>;
