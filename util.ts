@@ -14,7 +14,7 @@ export async function getCounrtyDialCode() {
   return json.data as { name: string; code: string; dial_code: string }[];
 }
 
-export async function toastPromise<T>(
+export function toastPromise<T>(
   p: Promise<T>,
   sucFn: (data: T) => string = () => "Done!",
   errFn: (err: unknown) => string = (err) => {
@@ -22,7 +22,7 @@ export async function toastPromise<T>(
     return "Failed";
   }
 ) {
-  return await toast.promise(p, {
+  return toast.promise(p, {
     loading: "loading..",
     success: sucFn,
     error: errFn,

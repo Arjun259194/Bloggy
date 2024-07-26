@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import useForm from "@/hooks/useForm";
-import { Col, Form, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Button from "./UI/Button";
@@ -48,12 +47,14 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
     role: "USER",
   });
 
+  useEffect(() => console.table(state), [state]);
+
   useEffect(() => {
     try {
       const p = getCounrtyDialCode();
       toastPromise(p, (data) => {
         setCountries(
-          data.map((d) => ({ name: d.name, dial_code: d.dial_code }))
+          data.map((d) => ({ name: d.name, dial_code: d.dial_code })),
         );
         return "countries loaded";
       });
@@ -67,7 +68,7 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
     if (!state.countryCode) return;
 
     const country = countries.find(
-      (c) => c.dial_code === state.countryCode
+      (c) => c.dial_code === state.countryCode,
     )?.name;
 
     if (!country) {
@@ -80,7 +81,7 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
     try {
       const p = axios.get(
         "https://countriesnow.space/api/v0.1/countries/states/q?country=" +
-          country
+        country,
       );
 
       toastPromise(p, (data) => {
@@ -131,62 +132,67 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
   }, [state.state]);
 
   return (
-    <Form
+    <form
+      className="space-y-5"
       action={async (formdata) => {
         const p = props.action(formdata);
         toastPromise(
           p,
           () => {
             window.location.href = "/auth/login";
-            return "Registered";
+            return "registered";
           },
-          (err) => `${err}`
+          (err) => `${err}`,
         );
       }}
-      className="space-y-4"
     >
-      <Row>
-        <Col md={6}>
-          <Form.Group controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
+      <div className="md:grid md:grid-cols-2 md:gap-3 w-full">
+        <div className="">
+          <div className="">
+            <label htmlFor="name">Name</label>
+            <input
               type="text"
+              className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+              id="name"
               name="name"
               required
               value={state.name}
               onChange={change}
             />
-          </Form.Group>
-        </Col>
-        <Col md={6}>
-          <Form.Group controlId="lastName">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
+          </div>
+        </div>
+        <div className="">
+          <div className="">
+            <label htmlFor="lastName">Last Name</label>
+            <input
               type="text"
+              className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+              id="lastName"
               name="lastName"
-              value={state.lastName}
               required
+              value={state.lastName}
               onChange={change}
             />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Form.Group controlId="contactNumber">
-        <Form.Label>Contact Number</Form.Label>
-        <Form.Control
+          </div>
+        </div>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="contactNumber">Contact Number</label>
+        <input
           type="text"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="contactNumber"
           name="contactNumber"
           required
-          inputMode="numeric"
-          // pattern="[0-9]"
           value={state.contactNumber}
           onChange={change}
         />
-      </Form.Group>
-      <Form.Group controlId="countryCode">
-        <Form.Label>Country Code</Form.Label>
-        <Form.Control
-          as="select"
+      </div>
+      <div className="mb-4">
+        <label htmlFor="countryCode">Country Code</label>
+        <select
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="countryCode"
           name="countryCode"
           required
           value={state.countryCode}
@@ -198,24 +204,27 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
               {country.name} ({country.dial_code})
             </option>
           ))}
-        </Form.Control>
-      </Form.Group>
-      <Form.Group controlId="country">
-        <Form.Label>Country</Form.Label>
-        <Form.Control
+        </select>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="country">Country</label>
+        <input
           type="text"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="country"
           name="country"
           required
           value={state.country}
           readOnly
         />
-      </Form.Group>
-      <Row>
-        <Col md={6}>
-          <Form.Group controlId="state">
-            <Form.Label>State/Province</Form.Label>
-            <Form.Control
-              as="select"
+      </div>
+      <div className="md:grid md:grid-cols-2 md:gap-3 w-full">
+        <div className="">
+          <div className="">
+            <label htmlFor="state">State/Province</label>
+            <select
+              className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+              id="state"
               name="state"
               required
               value={state.state}
@@ -227,14 +236,15 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
                   {state}
                 </option>
               ))}
-            </Form.Control>
-          </Form.Group>
-        </Col>
-        <Col md={6}>
-          <Form.Group controlId="city">
-            <Form.Label>City</Form.Label>
-            <Form.Control
-              as="select"
+            </select>
+          </div>
+        </div>
+        <div className="">
+          <div className="">
+            <label htmlFor="city">City</label>
+            <select
+              className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+              id="city"
               name="city"
               required
               value={state.city}
@@ -246,35 +256,39 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
                   {city}
                 </option>
               ))}
-            </Form.Control>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Form.Group controlId="address">
-        <Form.Label>Address</Form.Label>
-        <Form.Control
+            </select>
+          </div>
+        </div>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="address">Address</label>
+        <input
           type="text"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="address"
           name="address"
           required
           value={state.address}
           onChange={change}
         />
-      </Form.Group>
-      <Form.Group controlId="email">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
+      </div>
+      <div className="mb-4">
+        <label htmlFor="email">Email</label>
+        <input
           type="email"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="email"
           name="email"
           required
           value={state.email}
           onChange={change}
         />
-      </Form.Group>
-      <Form.Group className="space-y-3">
+      </div>
+      <div className="mb-4 space-y-3">
         <span>Role</span>
         <div className="flex space-x-5">
-          <div className="flex space-x-3">
-            <Form.Check
+          <div className="flex space-x-1">
+            <input
               type="radio"
               id="blog-uploader"
               value="BLOG_UPLOADER"
@@ -282,46 +296,240 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
               onChange={change}
               checked={state.role === "BLOG_UPLOADER"}
             />
-            <Form.Label htmlFor="blog-uploader"> Reader </Form.Label>
+            <label htmlFor="blog-uploader">Uploader</label>
           </div>
-          <div className="flex space-x-3">
-            <Form.Check
+          <div className="flex space-x-1">
+            <input
               type="radio"
               id="user"
               value="USER"
               name="role"
-              checked={state.role === "USER"}
               onChange={change}
+              checked={state.role === "USER"}
             />
-            <Form.Label htmlFor="user">Blog Uploader</Form.Label>
+            <label htmlFor="user">User</label>
           </div>
         </div>
-      </Form.Group>
-      <Form.Group controlId="password">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
+      </div>
+      <div className="mb-4">
+        <label htmlFor="password">Password</label>
+        <input
           type="password"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="password"
           name="password"
           required
           value={state.password}
           onChange={change}
         />
-      </Form.Group>
-      <Form.Group controlId="confirmPassword">
-        <Form.Label>Confirm Password</Form.Label>
-        <Form.Control
-          required
+      </div>
+      <div className="mb-4">
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
           type="password"
+          className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded"
+          id="confirmPassword"
           name="confirmPassword"
+          required
           value={state.confirmPassword}
           onChange={change}
         />
-      </Form.Group>
-      <Form.Group>
-        <Button type="submit">Register</Button>
-      </Form.Group>
-    </Form>
+      </div>
+      <div className="mb-4">
+        <Button>Register</Button>
+      </div>
+    </form>
   );
 };
 
+// <Form
+//   action={async (formdata) => {
+//     const p = props.action(formdata);
+//     toastpromise(
+//       p,
+//       () => {
+//         window.location.href = "/auth/login";
+//         return "registered";
+//       },
+//       (err) => `${err}`
+//     );
+//   }}
+//   className="space-y-4"
+// >
+//   <Row>
+//     <Col md={6}>
+//       <Form.Group controlId="name">
+//         <Form.Label>Name</Form.Label>
+//         <Form.Control
+//           type="text"
+//           name="name"
+//           required
+//           value={state.name}
+//           onChange={change}
+//         />
+//       </Form.Group>
+//     </Col>
+//     <Col md={6}>
+//       <Form.Group controlId="lastName">
+//         <Form.Label>Last Name</Form.Label>
+//         <Form.Control
+//           type="text"
+//           name="lastName"
+//           value={state.lastName}
+//           required
+//           onChange={change}
+//         />
+//       </Form.Group>
+//     </Col>
+//   </Row>
+//   <Form.Group controlId="contactNumber">
+//     <Form.Label>Contact Number</Form.Label>
+//     <Form.Control
+//       type="text"
+//       name="contactNumber"
+//       required
+//       inputMode="numeric"
+//       // pattern="[0-9]"
+//       value={state.contactNumber}
+//       onChange={change}
+//     />
+//   </Form.Group>
+//   <Form.Group controlId="countryCode">
+//     <Form.Label>Country Code</Form.Label>
+//     <Form.Control
+//       as="select"
+//       name="countryCode"
+//       required
+//       value={state.countryCode}
+//       onChange={change}
+//     >
+//       <option value="">Select country code</option>
+//       {countries.map((country, i) => (
+//         <option key={i} value={country.dial_code}>
+//           {country.name} ({country.dial_code})
+//         </option>
+//       ))}
+//     </Form.Control>
+//   </Form.Group>
+//   <Form.Group controlId="country">
+//     <Form.Label>Country</Form.Label>
+//     <Form.Control
+//       type="text"
+//       name="country"
+//       required
+//       value={state.country}
+//       readOnly
+//     />
+//   </Form.Group>
+//   <Row>
+//     <Col md={6}>
+//       <Form.Group controlId="state">
+//         <Form.Label>State/Province</Form.Label>
+//         <Form.Control
+//           as="select"
+//           name="state"
+//           required
+//           value={state.state}
+//           onChange={change}
+//         >
+//           <option value="">Select state/province</option>
+//           {states.map((state, i) => (
+//             <option key={i} value={state}>
+//               {state}
+//             </option>
+//           ))}
+//         </Form.Control>
+//       </Form.Group>
+//     </Col>
+//     <Col md={6}>
+//       <Form.Group controlId="city">
+//         <Form.Label>City</Form.Label>
+//         <Form.Control
+//           as="select"
+//           name="city"
+//           required
+//           value={state.city}
+//           onChange={change}
+//         >
+//           <option value="">Select city</option>
+//           {cities.map((city, i) => (
+//             <option key={i} value={city}>
+//               {city}
+//             </option>
+//           ))}
+//         </Form.Control>
+//       </Form.Group>
+//     </Col>
+//   </Row>
+//   <Form.Group controlId="address">
+//     <Form.Label>Address</Form.Label>
+//     <Form.Control
+//       type="text"
+//       name="address"
+//       required
+//       value={state.address}
+//       onChange={change}
+//     />
+//   </Form.Group>
+//   <Form.Group controlId="email">
+//     <Form.Label>Email</Form.Label>
+//     <Form.Control
+//       type="email"
+//       name="email"
+//       required
+//       value={state.email}
+//       onChange={change}
+//     />
+//   </Form.Group>
+//   <Form.Group className="space-y-3">
+//     <span>Role</span>
+//     <div className="flex space-x-5">
+//       <div className="flex space-x-3">
+//         <Form.Check
+//           type="radio"
+//           id="blog-uploader"
+//           value="BLOG_UPLOADER"
+//           name="role"
+//           onChange={change}
+//           checked={state.role === "BLOG_UPLOADER"}
+//         />
+//         <Form.Label htmlFor="blog-uploader"> Reader </Form.Label>
+//       </div>
+//       <div className="flex space-x-3">
+//         <Form.Check
+//           type="radio"
+//           id="user"
+//           value="USER"
+//           name="role"
+//           checked={state.role === "USER"}
+//           onChange={change}
+//         />
+//         <Form.Label htmlFor="user">Blog Uploader</Form.Label>
+//       </div>
+//     </div>
+//   </Form.Group>
+//   <Form.Group controlId="password">
+//     <Form.Label>Password</Form.Label>
+//     <Form.Control
+//       type="password"
+//       name="password"
+//       required
+//       value={state.password}
+//       onChange={change}
+//     />
+//   </Form.Group>
+//   <Form.Group controlId="confirmPassword">
+//     <Form.Label>Confirm Password</Form.Label>
+//     <Form.Control
+//       required
+//       type="password"
+//       name="confirmPassword"
+//       value={state.confirmPassword}
+//       onChange={change}
+//     />
+//   </Form.Group>
+//   <Form.Group>
+//     <Button type="submit">Register</Button>
+//   </Form.Group>
+// </Form>
 export default RegisterForm;

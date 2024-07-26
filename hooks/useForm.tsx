@@ -7,7 +7,11 @@ export default function useForm<T>(init: T): ReturnType<T> {
 
   return [
     state,
-    (event) => setState({ ...state, [event.target.name]: event.target.value }),
+    (event) =>
+      setState((prevState) => ({
+        ...prevState,
+        [event.target.name]: event.target.value,
+      })),
     () => setState(init),
   ];
 }

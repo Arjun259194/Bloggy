@@ -1,32 +1,32 @@
-'use client'
-import { Container, Navbar, NavbarToggle, NavbarCollapse, NavbarBrand, Nav, NavDropdown } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Link from "next/link";
+import Button from "./Button";
 
 export default function Header() {
-    return (
-        <Navbar bg="primary" data-bs-theme="dark">
-            <Container>
-                <NavbarBrand href="#home">Bloggy</NavbarBrand>
-                <NavbarToggle aria-controls="basic-navbar-nav" />
-                <NavbarCollapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#link">Link</Nav.Link>
-                        <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">
-                                Separated link
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </NavbarCollapse>
-            </Container>
-        </Navbar>
-    );
+  return (
+    <header className="flex items-center border-b-2 border-b-gray-200 justify-between container mx-auto py-3">
+      <div className="flex items-center space-x-10">
+        <h1 className="text-3xl font-semibold capitalize">
+          <Link href="/">Bloggy</Link>
+        </h1>
+        <nav>
+          <ul className="flex space-x-4">
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/about">About</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="flex items-center space-x-3">
+        <Link href="/auth/register">
+          <Button variant="secondary">Register</Button>
+        </Link>
+        <Link href="/auth/login">
+          <Button>Login</Button>
+        </Link>
+      </div>
+    </header>
+  );
 }

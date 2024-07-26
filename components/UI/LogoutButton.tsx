@@ -1,3 +1,4 @@
+'use client'
 import Button from "./Button";
 import { toastPromise } from "@/util";
 import action from "./logout";
