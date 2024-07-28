@@ -42,8 +42,10 @@ const fakeCategories = [
   // Add more fake categories
 ];
 
+type Cat = Category & { subcategories: Subcategory[] };
+
 interface Props {
-  categories: (Category & { subcategories: Subcategory[] })[];
+  categories: Cat[];
 }
 
 const CategoryManagement: FC<Props> = ({ categories }) => {
@@ -59,15 +61,19 @@ const CategoryManagement: FC<Props> = ({ categories }) => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Subcategories</th>
+              <th className="hidden lg:block">Subcategories</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {categories.map((category) => (
-              <tr key={category.id}>
+            {categories.map((category, i) => (
+              <tr key={i}>
                 <td>{category.name}</td>
-                <td>{category.subcategories.join(", ")}</td>
+                <td className="hidden lg:block">
+                  {category.subcategories.map((sub, i) => (
+                    <span key={i}>{sub.name}</span>
+                  ))}
+                </td>
                 <td>
                   <button
                     className="bg-blue-500 text-white px-2 py-1 rounded mr-2"

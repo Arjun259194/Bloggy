@@ -11,7 +11,7 @@ const page = async () => {
   ]);
 
   return (
-    <div className="grid lg:grid-cols-2 *:border-2 *:border-red-400 gap-4">
+    <div className="space-y-5 md:grid md:gap-4 md:grid-cols-2">
       <UserManagement users={users} />
       <BlogManagement blogs={blogs} />
       <CategoryManagement categories={categories} />

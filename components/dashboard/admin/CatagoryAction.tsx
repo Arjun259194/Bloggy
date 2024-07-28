@@ -1,8 +1,7 @@
 "use client";
-import { deleteUser } from "@/lib/actions";
+import { deleteBlog } from "@/lib/actions";
 import { toastPromise } from "@/util";
-import UserUpdateFormButton from "./UserUpdateFormButton";
-import { User } from "@prisma/client";
+import { Blog, Category, Subcategory } from "@prisma/client";
 import { FC } from "react";
 import {
   Dialog,
@@ -15,15 +14,18 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
+import CatagoryUpdateFormButton from "./CatagoryUpdateFormButton";
+
+type Cat = Category & { subcategories: Subcategory[] };
 
 interface Props {
-  user: User;
+  category: Cat;
 }
 
-const UserAction: FC<Props> = ({ user }) => {
+const CatagoryAction: FC<Props> = (props) => {
   return (
     <>
-      <UserUpdateFormButton user={user} />
+      <CatagoryUpdateFormButton catagory={props.category} />
       <Dialog>
         <DialogTrigger className={buttonVariants({ variant: "destructive" })}>
           Delete
@@ -31,10 +33,10 @@ const UserAction: FC<Props> = ({ user }) => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Are you sure you want to delete this user?
+              Are you sure you want to delete this blog?
             </DialogTitle>
             <DialogDescription>
-              make sure to conferm the user you want to delete
+              make sure to conferm the blog you want to delete
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -45,9 +47,7 @@ const UserAction: FC<Props> = ({ user }) => {
             </DialogClose>
             <Button
               onClick={() => {
-                toastPromise(deleteUser(user.id), () => {
-                  return "Deleted";
-                });
+                // toastPromise(deleteBlog(props.blog.id), () => "Deleted");
               }}
               variant="destructive"
             >
@@ -60,14 +60,4 @@ const UserAction: FC<Props> = ({ user }) => {
   );
 };
 
-// <button
-//   className="bg-gray-50 border border-red-600 text-red-600 px-2 py-1 rounded"
-//   onClick={() => {
-//     toastPromise(deleteUser(user.id), () => {
-//       return "Deleted";
-//     });
-//   }}
-// >
-//   Delete
-// </button>
-export default UserAction;
+export default CatagoryAction;

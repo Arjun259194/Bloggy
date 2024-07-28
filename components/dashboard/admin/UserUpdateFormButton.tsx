@@ -1,7 +1,7 @@
 "use client";
 import { User } from "@prisma/client";
 import { FC, useEffect } from "react";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,13 +11,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useForm from "@/hooks/useForm";
+import { toastPromise } from "@/util";
+import { updateUser } from "@/lib/actions";
 
 interface Props {
   user: User;
 }
 
 const UserUpdateFormButton: FC<Props> = ({ user }) => {
-  const [state, change] = useForm(user);
+  const [state, change, reset] = useForm(user);
 
   useEffect(() => console.table(state), [state]); // debug
 
@@ -32,7 +34,12 @@ const UserUpdateFormButton: FC<Props> = ({ user }) => {
           <DialogDescription>
             make sure to check all field before updating user data.
           </DialogDescription>
-          <form className="space-y-4 p-4">
+          <form
+            action={() => {
+              toastPromise(updateUser(state), () => "updated")
+            }}
+            className="space-y-4 p-4"
+          >
             <div className="flex items-center space-x-4">
               <label
                 htmlFor="name"
@@ -180,6 +187,18 @@ const UserUpdateFormButton: FC<Props> = ({ user }) => {
                   Admin
                 </option>
               </select>
+            </div>
+            <div className="w-full flex justify-between items-center">
+              <Button
+                variant={"outline"}
+                onClick={(e) => {
+                  e.preventDefault();
+                  reset();
+                }}
+              >
+                Reset
+              </Button>
+              <Button>Update</Button>
             </div>
           </form>
         </DialogHeader>

@@ -1,8 +1,9 @@
-"use client";
 import { Blog, Category, User } from "@prisma/client";
 // components/AdminDashboard/BlogManagement.tsx
 import { FC } from "react";
 import toast from "react-hot-toast";
+import BlogAction from "./BlogAction";
+import prisma from "@/lib/db";
 
 const fakeBlogs = [
   {
@@ -57,13 +58,18 @@ interface Props {
   })[];
 }
 
-const BlogManagement: FC<Props> = ({ blogs }) => {
+const BlogManagement: FC<Props> = async ({ blogs }) => {
+  const sub = await prisma.subcategory.findMany();
+  const cat = await prisma.category.findMany();
+
   return (
     <div>
       <h2 className="text-2xl mb-4">Blog Management</h2>
 
       {blogs.length <= 0 ? (
-        <div className="text-center italic font-semibold text-gray-600">No Data</div>
+        <div className="text-center italic font-semibold text-gray-600">
+          No Data
+        </div>
       ) : (
         <table className="w-full bg-white rounded shadow">
           <thead>
@@ -75,24 +81,13 @@ const BlogManagement: FC<Props> = ({ blogs }) => {
             </tr>
           </thead>
           <tbody>
-            {blogs.map((blog) => (
-              <tr key={blog.id}>
+            {blogs.map((blog, i) => (
+              <tr key={i}>
                 <td className="text-center">{blog.title}</td>
                 <td className="text-center">{blog.category.name}</td>
                 <td className="text-center">{blog.uploader.name}</td>
                 <td className="text-center">
-                  <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                    onClick={() => toast.success("Edit blog")}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-gray-50 border border-red-600 text-red-600 px-2 py-1 rounded"
-                    onClick={() => toast.error("Delete blog")}
-                  >
-                    Delete
-                  </button>
+                  <BlogAction subcategories={sub} categories={cat} blog={blog} />
                 </td>
               </tr>
             ))}

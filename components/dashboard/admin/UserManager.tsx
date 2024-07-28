@@ -133,7 +133,7 @@ interface Props {
 
 const UserManagement: FC<Props> = ({ users }) => {
   return (
-    <div className="col-span-2">
+    <div className="md:text-base text-sm col-span-2">
       <h2 className="text-2xl mb-4">User Management</h2>
       {users.length <= 0 ? (
         <div className="text-center italic font-semibold text-gray-600">
@@ -149,15 +149,15 @@ const UserManagement: FC<Props> = ({ users }) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
+          <tbody className="divide-y-2 space-y-3">
+            {users.map((user, i) => (
+              <tr key={i}>
                 <td>
                   {user.name} {user.lastName}
                 </td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-                <td>
+                <td className="space-x-4">
                   <UserAction user={user} />
                 </td>
               </tr>

@@ -79,7 +79,7 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
     try {
       const p = axios.get(
         "https://countriesnow.space/api/v0.1/countries/states/q?country=" +
-        country,
+          country,
       );
 
       toastPromise(p, (data) => {
