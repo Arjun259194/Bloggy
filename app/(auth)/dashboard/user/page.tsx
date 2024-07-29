@@ -1,4 +1,7 @@
-export default function page() {
+import { checkRole } from "@/lib/utils";
+
+export default async function page() {
+  await checkRole("USER")
   return (
     <div>
       <h1> this is home page </h1>

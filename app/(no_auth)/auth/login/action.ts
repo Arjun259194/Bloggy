@@ -1,10 +1,9 @@
 "use server";
-import { JWTToken } from "@/lib/cookies";
 import db from "@/lib/db";
 import { PasswordHash } from "@/lib/hash";
+import { JWTToken } from "@/lib/jwt";
 import { loginFormSchema } from "@/lib/schema";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export default async function action(formData: FormData) {
   const parsedObj = loginFormSchema.safeParse({
@@ -27,9 +26,5 @@ export default async function action(formData: FormData) {
   const cookieStore = cookies();
   cookieStore.set("token", token, { path: "/", httpOnly: true, maxAge: 86400 });
 
-  switch(foundUser.role) {
-    case "ADMIN": redirect("/dashboard/admin");
-    case "USER":redirect("/dashboard/user");
-    case "BLOG_UPLOADER":redirect("/dashboard/uploader");
-  }
+  return;
 }

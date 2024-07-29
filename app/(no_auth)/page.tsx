@@ -1,7 +1,10 @@
+import { HeroParallax } from "@/components/ui/hero-parallex";
+import { heroCat } from "@/lib/data";
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="">this is landing page</h1>
+    <main className="py-5">
+      <HeroParallax cats={heroCat} />
     </main>
   );
 }

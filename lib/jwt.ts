@@ -1,15 +1,4 @@
-import { cookies } from "next/headers";
 import * as jwt from "jsonwebtoken";
-
-/**
- * Returns User id if authorized and authenticated
- */
-export function getUserId() {
-  let token = cookies().get("token")?.value;
-  if (!token) return undefined;
-  const userID = JWTToken.valid(token);
-  return userID;
-}
 
 export class JWTToken {
   static create = (id: string) =>
@@ -19,7 +8,7 @@ export class JWTToken {
     try {
       return jwt.verify(
         token,
-        process.env.JWT_SECRET || "SUPER_SECRET"
+        process.env.JWT_SECRET || "SUPER_SECRET",
       ) as string;
     } catch (error) {
       console.error("Not a valid token");

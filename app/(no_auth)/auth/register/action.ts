@@ -2,7 +2,6 @@
 import prisma from "@/lib/db";
 import { PasswordHash } from "@/lib/hash";
 import { registerFormSchema } from "@/lib/schema";
-import { hash } from "bcrypt";
 
 const action = async (formData: FormData) => {
   const obj = {

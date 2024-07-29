@@ -10,7 +10,7 @@ export default function LoginForm(props: {
       action={async (formdata) => {
         const p = props.action(formdata);
         toastPromise(p, () => {
-          // window.location.href = "/home"
+          window.location.href = "/dashboard/user";
           return "Logged in";
         });
       }}
