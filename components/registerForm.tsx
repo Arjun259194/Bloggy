@@ -27,7 +27,9 @@ interface State {
   role: "USER" | "BLOG_UPLOADER";
 }
 
-const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
+const RegisterForm = (props: {
+  action: (arg1: FormData) => void;
+}) => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
@@ -132,17 +134,7 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
   return (
     <form
       className="space-y-5 mx-5 md:mx-0"
-      action={async (formdata) => {
-        const p = props.action(formdata);
-        toastPromise(
-          p,
-          () => {
-            window.location.href = "/auth/login";
-            return "registered";
-          },
-          (err) => `${err}`,
-        );
-      }}
+      action={props.action}
     >
       <div className="md:grid md:grid-cols-2 md:gap-3 w-full">
         <div className="">
@@ -340,194 +332,4 @@ const RegisterForm = (props: { action: (arg1: FormData) => Promise<void> }) => {
   );
 };
 
-// <Form
-//   action={async (formdata) => {
-//     const p = props.action(formdata);
-//     toastpromise(
-//       p,
-//       () => {
-//         window.location.href = "/auth/login";
-//         return "registered";
-//       },
-//       (err) => `${err}`
-//     );
-//   }}
-//   className="space-y-4"
-// >
-//   <Row>
-//     <Col md={6}>
-//       <Form.Group controlId="name">
-//         <Form.Label>Name</Form.Label>
-//         <Form.Control
-//           type="text"
-//           name="name"
-//           required
-//           value={state.name}
-//           onChange={change}
-//         />
-//       </Form.Group>
-//     </Col>
-//     <Col md={6}>
-//       <Form.Group controlId="lastName">
-//         <Form.Label>Last Name</Form.Label>
-//         <Form.Control
-//           type="text"
-//           name="lastName"
-//           value={state.lastName}
-//           required
-//           onChange={change}
-//         />
-//       </Form.Group>
-//     </Col>
-//   </Row>
-//   <Form.Group controlId="contactNumber">
-//     <Form.Label>Contact Number</Form.Label>
-//     <Form.Control
-//       type="text"
-//       name="contactNumber"
-//       required
-//       inputMode="numeric"
-//       // pattern="[0-9]"
-//       value={state.contactNumber}
-//       onChange={change}
-//     />
-//   </Form.Group>
-//   <Form.Group controlId="countryCode">
-//     <Form.Label>Country Code</Form.Label>
-//     <Form.Control
-//       as="select"
-//       name="countryCode"
-//       required
-//       value={state.countryCode}
-//       onChange={change}
-//     >
-//       <option value="">Select country code</option>
-//       {countries.map((country, i) => (
-//         <option key={i} value={country.dial_code}>
-//           {country.name} ({country.dial_code})
-//         </option>
-//       ))}
-//     </Form.Control>
-//   </Form.Group>
-//   <Form.Group controlId="country">
-//     <Form.Label>Country</Form.Label>
-//     <Form.Control
-//       type="text"
-//       name="country"
-//       required
-//       value={state.country}
-//       readOnly
-//     />
-//   </Form.Group>
-//   <Row>
-//     <Col md={6}>
-//       <Form.Group controlId="state">
-//         <Form.Label>State/Province</Form.Label>
-//         <Form.Control
-//           as="select"
-//           name="state"
-//           required
-//           value={state.state}
-//           onChange={change}
-//         >
-//           <option value="">Select state/province</option>
-//           {states.map((state, i) => (
-//             <option key={i} value={state}>
-//               {state}
-//             </option>
-//           ))}
-//         </Form.Control>
-//       </Form.Group>
-//     </Col>
-//     <Col md={6}>
-//       <Form.Group controlId="city">
-//         <Form.Label>City</Form.Label>
-//         <Form.Control
-//           as="select"
-//           name="city"
-//           required
-//           value={state.city}
-//           onChange={change}
-//         >
-//           <option value="">Select city</option>
-//           {cities.map((city, i) => (
-//             <option key={i} value={city}>
-//               {city}
-//             </option>
-//           ))}
-//         </Form.Control>
-//       </Form.Group>
-//     </Col>
-//   </Row>
-//   <Form.Group controlId="address">
-//     <Form.Label>Address</Form.Label>
-//     <Form.Control
-//       type="text"
-//       name="address"
-//       required
-//       value={state.address}
-//       onChange={change}
-//     />
-//   </Form.Group>
-//   <Form.Group controlId="email">
-//     <Form.Label>Email</Form.Label>
-//     <Form.Control
-//       type="email"
-//       name="email"
-//       required
-//       value={state.email}
-//       onChange={change}
-//     />
-//   </Form.Group>
-//   <Form.Group className="space-y-3">
-//     <span>Role</span>
-//     <div className="flex space-x-5">
-//       <div className="flex space-x-3">
-//         <Form.Check
-//           type="radio"
-//           id="blog-uploader"
-//           value="BLOG_UPLOADER"
-//           name="role"
-//           onChange={change}
-//           checked={state.role === "BLOG_UPLOADER"}
-//         />
-//         <Form.Label htmlFor="blog-uploader"> Reader </Form.Label>
-//       </div>
-//       <div className="flex space-x-3">
-//         <Form.Check
-//           type="radio"
-//           id="user"
-//           value="USER"
-//           name="role"
-//           checked={state.role === "USER"}
-//           onChange={change}
-//         />
-//         <Form.Label htmlFor="user">Blog Uploader</Form.Label>
-//       </div>
-//     </div>
-//   </Form.Group>
-//   <Form.Group controlId="password">
-//     <Form.Label>Password</Form.Label>
-//     <Form.Control
-//       type="password"
-//       name="password"
-//       required
-//       value={state.password}
-//       onChange={change}
-//     />
-//   </Form.Group>
-//   <Form.Group controlId="confirmPassword">
-//     <Form.Label>Confirm Password</Form.Label>
-//     <Form.Control
-//       required
-//       type="password"
-//       name="confirmPassword"
-//       value={state.confirmPassword}
-//       onChange={change}
-//     />
-//   </Form.Group>
-//   <Form.Group>
-//     <Button type="submit">Register</Button>
-//   </Form.Group>
-// </Form>
 export default RegisterForm;

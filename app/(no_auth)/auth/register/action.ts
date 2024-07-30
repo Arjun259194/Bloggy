@@ -2,6 +2,7 @@
 import prisma from "@/lib/db";
 import { PasswordHash } from "@/lib/hash";
 import { registerFormSchema } from "@/lib/schema";
+import { revalidatePath } from "next/cache";
 
 const action = async (formData: FormData) => {
   const obj = {
@@ -22,9 +23,8 @@ const action = async (formData: FormData) => {
   const parsedObj = registerFormSchema.safeParse(obj);
 
   if (!parsedObj.success) {
-    console.error(parsedObj.error.message)
+    console.error(parsedObj.error.message);
     throw new Error("Not valid form data");
-
   }
 
   const { data } = parsedObj;
@@ -54,8 +54,6 @@ const action = async (formData: FormData) => {
     console.error("Error while creating user", err);
     throw new Error("Error while creating new user");
   }
-
-  return;
 };
 
 export default action;

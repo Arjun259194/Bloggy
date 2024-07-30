@@ -2,7 +2,7 @@
 import { deleteUser } from "@/lib/actions";
 import { toastPromise } from "@/util";
 import UserUpdateFormButton from "./UserUpdateFormButton";
-import { User } from "@prisma/client";
+import { Category, User } from "@prisma/client";
 import { FC } from "react";
 import {
   Dialog,
@@ -20,10 +20,10 @@ interface Props {
   user: User;
 }
 
-const UserAction: FC<Props> = ({ user }) => {
+const UserAction: FC<Props> = ({ user,  }) => {
   return (
     <>
-      <UserUpdateFormButton user={user} />
+      <UserUpdateFormButton  user={user} />
       <Dialog>
         <DialogTrigger className={buttonVariants({ variant: "destructive" })}>
           Delete

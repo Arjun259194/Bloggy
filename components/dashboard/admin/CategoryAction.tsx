@@ -1,7 +1,7 @@
 "use client";
-import { deleteBlog } from "@/lib/actions";
+import { deleteCategory } from "@/lib/actions";
 import { toastPromise } from "@/util";
-import { Blog, Category } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { FC } from "react";
 import {
   Dialog,
@@ -14,17 +14,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button, buttonVariants } from "@/components/ui/button";
-import BlogUpdateFormButton from "./BlogUpdateFormButton";
+import CategoryUpdateFormButton from "./CategoryUpdateFormButton";
 
 interface Props {
-  blog: Blog;
-  categories: Category[]
+  category: Category;
 }
 
-const BlogAction: FC<Props> = (props) => {
+const CategoryAction: FC<Props> = ({ category }) => {
   return (
     <>
-      <BlogUpdateFormButton {...props} />
+      <CategoryUpdateFormButton category={category} />
       <Dialog>
         <DialogTrigger className={buttonVariants({ variant: "destructive" })}>
           Delete
@@ -32,10 +31,10 @@ const BlogAction: FC<Props> = (props) => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Are you sure you want to delete this blog?
+              Are you sure you want to delete this category?
             </DialogTitle>
             <DialogDescription>
-              make sure to conferm the blog you want to delete
+              make sure to conferm the category you want to delete
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
@@ -46,7 +45,9 @@ const BlogAction: FC<Props> = (props) => {
             </DialogClose>
             <Button
               onClick={() => {
-                toastPromise(deleteBlog(props.blog.id), () => "Deleted");
+                toastPromise(deleteCategory(category.id), () => {
+                  return "Deleted";
+                });
               }}
               variant="destructive"
             >
@@ -59,4 +60,14 @@ const BlogAction: FC<Props> = (props) => {
   );
 };
 
-export default BlogAction;
+// <button
+//   className="bg-gray-50 border border-red-600 text-red-600 px-2 py-1 rounded"
+//   onClick={() => {
+//     toastPromise(deleteUser(user.id), () => {
+//       return "Deleted";
+//     });
+//   }}
+// >
+//   Delete
+// </button>
+export default CategoryAction;

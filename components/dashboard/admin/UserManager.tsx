@@ -1,131 +1,8 @@
 // components/AdminDashboard/UserManagement.tsx
-import { deleteUser } from "@/lib/actions";
-import { toastPromise } from "@/util";
 import { User } from "@prisma/client";
 import { FC } from "react";
-import UserUpdateFormButton from "./UserUpdateFormButton";
 import UserAction from "./UserAction";
-
-const fakeUsers = [
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  {
-    id: "1",
-    name: "John",
-    lastName: "Doe",
-    countryCode: "+1",
-    country: "USA",
-    contactNumber: "1234567890",
-    state: "CA",
-    city: "Los Angeles",
-    address: "123 Main St",
-    email: "john@example.com",
-    role: "ADMIN",
-  },
-  // Add more fake users
-];
+import CreateUserButton from "./CreateUserButton";
 
 interface Props {
   users: User[];
@@ -133,8 +10,11 @@ interface Props {
 
 const UserManagement: FC<Props> = ({ users }) => {
   return (
-    <div className="md:text-base text-sm col-span-2">
-      <h2 className="text-2xl mb-4">User Management</h2>
+    <div className="md:text-base text-sm lg:col-span-3">
+      <div className="w-full flex justify-between items-center">
+        <h2 className="text-2xl mb-4">User Management</h2>
+        <CreateUserButton />
+      </div>
       {users.length <= 0 ? (
         <div className="text-center italic font-semibold text-gray-600">
           No Data

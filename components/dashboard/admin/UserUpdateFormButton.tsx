@@ -18,10 +18,8 @@ interface Props {
   user: User;
 }
 
-const UserUpdateFormButton: FC<Props> = ({ user }) => {
+const UserUpdateFormButton: FC<Props> = ({ user}) => {
   const [state, change, reset] = useForm(user);
-
-  useEffect(() => console.table(state), [state]); // debug
 
   return (
     <Dialog>

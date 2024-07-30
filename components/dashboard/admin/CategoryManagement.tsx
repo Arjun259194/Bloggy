@@ -1,39 +1,43 @@
-import { Category, Subcategory } from "@prisma/client";
-
-type Cat = Category & { subcategories: Subcategory[] };
+import CreateCatagoryButton from "./CreateCatagoryButton";
+import CategoryAction from "./CategoryAction";
+import { Category } from "@prisma/client";
 
 interface Props {
-  catagories: Cat[];
+  catagories: Category[];
 }
 
 const CategoryManagement: React.FC<Props> = ({ catagories }) => {
   return (
-    <div className="md:text-base text-sm col-span-2">
-      <h2 className="text-2xl mb-4">User Management</h2>
+    <div className="md:text-base text-sm">
+      <div className="w-full flex justify-between">
+        <h2 className="text-2xl mb-4">Category Management</h2>
+        <CreateCatagoryButton />
+      </div>
       {catagories.length <= 0 ? (
         <div className="text-center italic font-semibold text-gray-600">
           No Data
         </div>
       ) : (
-        <table className="w-full bg-white rounded shadow text-center">
-          <thead>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y-2 space-y-3">
-            {catagories.map((category, i) => (
-              <tr key={i}>
-                <td>{category.name}</td>
-                <td className="space-x-4">
-                    {
-                      //here
-                    }
-                </td>
+        <>
+          <table className="w-full bg-white rounded shadow text-center">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y-2 space-y-3">
+              {catagories.map((category, i) => (
+                <tr key={i}>
+                  <td>{category.name}</td>
+                  <td className="space-x-4">
+                    <CategoryAction category={category} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </div>
   );

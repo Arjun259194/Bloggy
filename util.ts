@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import toast from "react-hot-toast";
 
 /**
@@ -7,7 +8,7 @@ import toast from "react-hot-toast";
  */
 export async function getCounrtyDialCode() {
   const res = await fetch(
-    "https://countriesnow.space/api/v0.1/countries/codes"
+    "https://countriesnow.space/api/v0.1/countries/codes",
   );
   const json = await res.json();
   if (json.error) throw new Error("Can't fetch countries");
@@ -17,10 +18,7 @@ export async function getCounrtyDialCode() {
 export function toastPromise<T>(
   p: Promise<T>,
   sucFn: (data: T) => string = () => "Done!",
-  errFn: (err: unknown) => string = (err) => {
-    console.error(err);
-    return "Failed";
-  }
+  errFn: (err: unknown) => string = (error) => `${error}`,
 ) {
   return toast.promise(p, {
     loading: "loading..",
@@ -28,4 +26,3 @@ export function toastPromise<T>(
     error: errFn,
   });
 }
-

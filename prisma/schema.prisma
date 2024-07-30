@@ -34,10 +34,10 @@ model Blog {
   id            String      @id @default(auto()) @map("_id") @db.ObjectId
   title         String
   content       String
-  category      Category    @relation(fields: [categoryId], references: [id])
-  categoryId    String      @db.ObjectId
-  subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-  subcategoryId String      @db.ObjectId
+  category      Category?    @relation(fields: [categoryId], references: [id])
+  categoryId    String?      @db.ObjectId
+  // subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
+  // subcategoryId String      @db.ObjectId
   tags          String[]
   uploader      User        @relation("UserBlogs", fields: [uploaderId], references: [id], onDelete: Cascade)
   uploaderId    String      @db.ObjectId
@@ -51,21 +51,21 @@ model Blog {
 model Category {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   name          String        @unique
-  subcategories Subcategory[]
+  // subcategories Subcategory[]
   Blog          Blog[]
 
   @@map("categories")
 }
 
-model Subcategory {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId String   @db.ObjectId
-  blogs      Blog[]
+// model Subcategory { 
+//   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+//   name       String
+//   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+//   categoryId String   @db.ObjectId
+//   blogs      Blog[]
 
-  @@map("subcategories")
-}
+//   @@map("subcategories")
+// }
 
 model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId

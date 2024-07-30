@@ -1,71 +1,19 @@
 import { Blog, Category, User } from "@prisma/client";
-// components/AdminDashboard/BlogManagement.tsx
 import { FC } from "react";
-import toast from "react-hot-toast";
 import BlogAction from "./BlogAction";
-import prisma from "@/lib/db";
-
-const fakeBlogs = [
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  {
-    id: "1",
-    title: "Sample Blog",
-    category: "Tech",
-    uploader: "John Doe",
-  },
-  // Add more fake blogs
-];
 
 interface Props {
   blogs: (Blog & {
-    category: Category;
+    category: Category | null;
     uploader: User;
   })[];
+  categories: Category[];
 }
 
-const BlogManagement: FC<Props> = async ({ blogs }) => {
-  const sub = await prisma.subcategory.findMany();
-  const cat = await prisma.category.findMany();
-
+const BlogManagement: FC<Props> = async ({ blogs, categories }) => {
   return (
-    <div>
+    <div className="text-sm md:text-base lg:col-span-2">
       <h2 className="text-2xl mb-4">Blog Management</h2>
-
       {blogs.length <= 0 ? (
         <div className="text-center italic font-semibold text-gray-600">
           No Data
@@ -84,10 +32,12 @@ const BlogManagement: FC<Props> = async ({ blogs }) => {
             {blogs.map((blog, i) => (
               <tr key={i}>
                 <td className="text-center">{blog.title}</td>
-                <td className="text-center">{blog.category.name}</td>
-                <td className="text-center">{blog.uploader.name}</td>
                 <td className="text-center">
-                  <BlogAction subcategories={sub} categories={cat} blog={blog} />
+                  {blog?.category?.name ?? "Not assigned"}
+                </td>
+                <td className="text-center">{blog.uploader.name}</td>
+                <td className="text-center space-x-3">
+                  <BlogAction categories={categories} blog={blog} />
                 </td>
               </tr>
             ))}

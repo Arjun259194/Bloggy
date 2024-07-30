@@ -2,31 +2,69 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "./db";
-import { Blog, Category, User } from "@prisma/client";
+import { Blog, Category, Prisma, User } from "@prisma/client";
 
-export const updateCatagory = async (
-  { id, ...data }: Category,
-  path?: string,
-) => {
+function ErrorHandler(error: unknown): never {
+  console.error("Error:", error);
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    switch (error.code) {
+      case "P2002":
+        throw new Error("Resource already exists.");
+      case "P2016":
+        throw new Error("Record not found.");
+      case "P2025":
+        throw new Error("Record not found.");
+      default:
+        throw new Error("A database error occurred.");
+    }
+  } else {
+    throw new Error("Error");
+  }
+}
+
+
+export const deleteCategory = async (id:string, path?: string) => {
   try {
-    await prisma.category.update({ where: { id }, data });
+    await prisma.category.delete({where: {id}})
+  } catch (error) {
+    ErrorHandler(error)
+  }
+
+  revalidatePath(path ?? "/dashboard/admin");
+  return;
+}
+
+export const createCategory = async (name: string, path?: string) => {
+  try {
+    await prisma.category.create({ data: { name } });
   } catch (err) {
-    console.error("Error while updating user:", err);
-    throw new Error("Failed to update user");
+    ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");
   return;
 };
 
-type Data = Pick<Blog, "id" | "title" | "content">;
+export const updateCatagory = async ( {id, name}:Category, path?: string) => {
+  try {
+    await prisma.category.update({ where: { id }, data: {
+      name
+    } });
+  } catch (err) {
+    ErrorHandler(err);
+  }
+
+  revalidatePath(path ?? "/dashboard/admin");
+  return;
+};
+
+type Data = Pick<Blog, "id" | "title" | "content" | "categoryId">;
 
 export const updateBlog = async ({ id, ...data }: Data, path?: string) => {
   try {
     await prisma.blog.update({ where: { id }, data });
   } catch (err) {
-    console.error("Error while updating user:", err);
-    throw new Error("Failed to update user");
+    ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");
@@ -37,8 +75,7 @@ export const updateUser = async ({ id, ...data }: User, path?: string) => {
   try {
     await prisma.user.update({ where: { id }, data });
   } catch (err) {
-    console.error("Error while updating user:", err);
-    throw new Error("Failed to update user");
+    ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");
@@ -49,8 +86,7 @@ export const deleteBlog = async (id: string, path?: string) => {
   try {
     await prisma.blog.delete({ where: { id } });
   } catch (err) {
-    console.error("Error while deleting user:", err);
-    throw new Error("Failed to delete user");
+    ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");
@@ -61,8 +97,7 @@ export const deleteUser = async (id: string, path?: string) => {
   try {
     await prisma.user.delete({ where: { id } });
   } catch (err) {
-    console.error("Error while deleting user:", err);
-    throw new Error("Failed to delete user");
+    ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");

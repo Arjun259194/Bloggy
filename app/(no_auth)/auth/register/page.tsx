@@ -1,7 +1,8 @@
-"use server";
+"use client";
 import RegisterForm from "@/components/registerForm";
 import Link from "next/link";
 import action from "./action";
+import { toastPromise } from "@/util";
 
 export default async function page() {
   return (
@@ -17,7 +18,19 @@ export default async function page() {
             login
           </Link>
         </p>
-        <RegisterForm action={action} />
+        <RegisterForm
+          action={async (formdata) => {
+            const p = action(formdata);
+            toastPromise(
+              p,
+              () => {
+                window.location.href = "/auth/login";
+                return "registered";
+              },
+              (err) => `${err}`,
+            );
+          }}
+        />
       </section>
     </div>
   );
