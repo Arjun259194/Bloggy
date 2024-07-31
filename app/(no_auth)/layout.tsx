@@ -4,6 +4,7 @@ import "../globals.css";
 import Header from "@/components/UI/Header";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/UI/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Toaster />
         <Header />
         <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );
