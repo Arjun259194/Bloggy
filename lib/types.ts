@@ -1,3 +1,9 @@
-import { Category, Subcategory } from "@prisma/client";
+import prisma from "./db";
 
-export type Cat = Category & { subcategories: Subcategory[] };
+type UserUpdateFn = typeof prisma.user.update;
+
+type UserUpdateFnParam =  Parameters<UserUpdateFn>
+
+export type UserUpdateFnData = UserUpdateFnParam[0]['data']
+
+

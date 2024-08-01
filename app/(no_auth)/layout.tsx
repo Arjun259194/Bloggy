@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " min-h-screen flex flex-col"}>
-        <Toaster />
+        <Toaster position="top-right" />
         <Header />
         <main>{children}</main>
         <Footer />

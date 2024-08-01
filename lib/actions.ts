@@ -5,6 +5,7 @@ import prisma from "./db";
 import { Blog, Category, Prisma, User } from "@prisma/client";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { UserUpdateFnData } from "./types";
 
 function ErrorHandler(error: unknown): never {
   console.error("Error:", error);
@@ -117,15 +118,43 @@ export const updateBlog = async ({ id, ...data }: Data, path?: string) => {
   return;
 };
 
-export const updateUser = async ({ id, ...data }: User, path?: string) => {
+export const updateUser = async (
+  { id, ...data }: UserUpdateFnData & { id: string },
+  path?: string,
+) => {
   try {
-    await prisma.user.update({ where: { id }, data });
+    await prisma.user.update({
+      where: { id },
+      data,
+    });
   } catch (err) {
     ErrorHandler(err);
   }
 
   revalidatePath(path ?? "/dashboard/admin");
   return;
+};
+
+export const createBlog = async (
+  userId: string,
+  data: { title: string; content: string; categoryId: string },
+  path?: string,
+) => {
+  let x: Blog;
+  try {
+    x = await prisma.blog.create({
+      data: {
+        title: data.title,
+        content: data.content,
+        categoryId: data.categoryId,
+        uploaderId: userId,
+      },
+    });
+  } catch (err) {
+    ErrorHandler(err);
+  }
+  revalidatePath(path ?? "/editor");
+  return x;
 };
 
 export const deleteBlog = async (id: string, path?: string) => {

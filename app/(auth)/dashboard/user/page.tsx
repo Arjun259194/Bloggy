@@ -18,7 +18,7 @@ export default async function page() {
     <div className="overflow-y-auto md:grid md:grid-cols-4 md:gap-5">
       <div className="md:col-span-3 space-y-3">
         <SearchBlog blogs={blogs} />
-        {blogs.map((b, i) => {
+        {blogs.reverse().map((b, i) => {
           return <BlogCard key={i} {...b} sessionUserId={id} />;
         })}
       </div>

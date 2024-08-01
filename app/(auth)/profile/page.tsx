@@ -18,5 +18,5 @@ export default async function page() {
   });
   if (!fullUserData) throw new Error("User not found");
 
-  return <UserProfile user={fullUserData} />;
+  return <UserProfile showEditButton user={fullUserData} />;
 }

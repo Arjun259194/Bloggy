@@ -1,7 +1,6 @@
 import BlogManagement from "@/components/dashboard/admin/BlogManager";
 import CategoryManagement from "@/components/dashboard/admin/CategoryManagement";
 import UserManagement from "@/components/dashboard/admin/UserManager";
-import { Separator } from "@/components/ui/separator";
 import prisma from "@/lib/db";
 import { checkRole } from "@/lib/utils";
 

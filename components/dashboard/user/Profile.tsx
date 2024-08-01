@@ -4,6 +4,8 @@ import { Separator } from "@/components/ui/separator";
 import { Prisma } from "@prisma/client";
 import { Edit, Shield, Upload, User } from "lucide-react";
 import Link from "next/link";
+import UserUpdateFormButton from "../admin/UserUpdateFormButton";
+import UserProfileEditFormButton from "./UserProfileEditFormButton";
 
 type User = Prisma.UserGetPayload<{
   include: {
@@ -16,9 +18,10 @@ type User = Prisma.UserGetPayload<{
 
 interface Props {
   user: User;
+  showEditButton: boolean;
 }
 
-const UserProfile: React.FC<Props> = ({ user }) => {
+const UserProfile: React.FC<Props> = ({ user, showEditButton }) => {
   return (
     <div className=" mx-auto p-6 space-y-8 bg-white rounded-lg shadow-lg">
       <div className="space-y-6 bg-white">
@@ -35,9 +38,14 @@ const UserProfile: React.FC<Props> = ({ user }) => {
                 )}
                 {user.name} {user.lastName}
               </h1>
-              <Button size="icon">
-                <Edit />
-              </Button>
+
+              {showEditButton ? (
+                <UserProfileEditFormButton user={user}>
+                  <Button size="icon">
+                    <Edit />
+                  </Button>
+                </UserProfileEditFormButton>
+              ) : null}
             </div>
             <div className="text-xs md:text-sm text-gray-700">
               <p className="">{user.email}</p>
@@ -79,9 +87,9 @@ const UserProfile: React.FC<Props> = ({ user }) => {
                   </h2>
                 </div>
               ) : (
-                user.blogs.map((blog) => (
+                user.blogs.map((blog, i) => (
                   <li
-                    key={blog.id}
+                    key={i}
                     className="p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
                     <Link href={`/blog/${blog.id}`}>

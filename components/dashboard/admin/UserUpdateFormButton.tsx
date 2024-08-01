@@ -1,6 +1,6 @@
 "use client";
 import { User } from "@prisma/client";
-import { FC, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,15 +16,16 @@ import { updateUser } from "@/lib/actions";
 
 interface Props {
   user: User;
+  children: ReactNode
 }
 
-const UserUpdateFormButton: FC<Props> = ({ user }) => {
+const UserUpdateFormButton: FC<Props> = ({ user, children }) => {
   const [state, change, reset] = useForm(user);
 
   return (
     <Dialog>
-      <DialogTrigger className={buttonVariants({ variant: "outline" })}>
-        Edit
+      <DialogTrigger asChild >
+        {children}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

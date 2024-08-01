@@ -22,5 +22,5 @@ export default async function page({ params: { id } }: Props) {
 
   if (!foundUser) throw new Error("User not found in database");
 
-  return <UserProfile user={foundUser} />;
+  return <UserProfile showEditButton={false} user={foundUser} />;
 }

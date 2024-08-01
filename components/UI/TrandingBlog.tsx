@@ -12,7 +12,11 @@ interface Props {
   blogs: CompleteBlog[];
 }
 
-export function calScore(b: CompleteBlog, LIKE_WAIGHT = 1, RATING_WAIGHT = 2): number {
+export function calScore(
+  b: CompleteBlog,
+  LIKE_WAIGHT = 1,
+  RATING_WAIGHT = 2,
+): number {
   const totalLikes = b.likes.length;
   const averageRating =
     b.ratings.length > 0
@@ -27,18 +31,13 @@ const TrandingBlog: React.FC<Props> = ({ blogs }) => {
     .sort((a, b) => calScore(b) - calScore(a))
     .slice(0, 5);
 
-  trandingBlogs.map((b) => {
-    console.log(b.title);
-    console.log("Score is " + calScore(b));
-  });
-
   return (
     <div className="bg-white rounded-lg hidden md:block p-2 divide-y-2 divide-gray-800 ">
       <h2 className="text-2xl font-semibold text-gray-700">Tranding</h2>
-      {trandingBlogs.map((b) => {
+      {trandingBlogs.map((b, i) => {
         return (
           <>
-            <Link href={`/blog/${b.id}`}>
+            <Link key={i} href={`/blog/${b.id}`}>
               <p className="hover:underline p-2 font-semibold text-gray-600">
                 {b.title}
               </p>

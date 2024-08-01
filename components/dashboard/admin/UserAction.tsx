@@ -20,10 +20,12 @@ interface Props {
   user: User;
 }
 
-const UserAction: FC<Props> = ({ user,  }) => {
+const UserAction: FC<Props> = ({ user }) => {
   return (
     <>
-      <UserUpdateFormButton  user={user} />
+      <UserUpdateFormButton user={user}>
+        <Button variant="secondary">Edit</Button>
+      </UserUpdateFormButton>
       <Dialog>
         <DialogTrigger className={buttonVariants({ variant: "destructive" })}>
           Delete

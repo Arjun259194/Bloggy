@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 export default async function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-
   // this code is responsible for redirecting unauthorized users
   const user = await getSessionUser();
   if (!user) redirect("/auth/login");
@@ -24,10 +23,12 @@ export default async function AuthLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster />
- <SidebarWrapper>
-      <main className="flex-grow p-4 md:p-6 overflow-y-auto">{children}</main>
-    </SidebarWrapper>
+        <Toaster position="top-right" />
+        <SidebarWrapper>
+          <main className="flex-grow p-4 md:p-6 overflow-y-auto">
+            {children}
+          </main>
+        </SidebarWrapper>
       </body>
     </html>
   );

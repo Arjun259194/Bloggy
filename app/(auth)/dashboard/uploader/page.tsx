@@ -1,45 +1,93 @@
+import BlogManagement from "@/components/dashboard/admin/BlogManager";
+import { calScore } from "@/components/UI/TrandingBlog";
 import prisma from "@/lib/db";
 import { checkRole } from "@/lib/utils";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 export default async function page() {
   const user = await checkRole("BLOG_UPLOADER");
 
-  const blogs = await prisma.blog.findMany({
-    where: {
-      uploaderId: user.id,
-    },
-  });
+  const [blogs, categories] = await Promise.all([
+    prisma.blog.findMany({
+      where: { uploaderId: user.id },
+      include: { ratings: true, likes: true, category: true, uploader: true },
+    }),
+    prisma.category.findMany(),
+  ]);
 
-  return <div></div>
-
-  // return (
-  //   <div>
-  //     <div className="container mx-auto p-4">
-  //       <h1 className="text-3xl font-bold mb-6">Blog Uploader Dashboard</h1>
-  //       <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-  //         <h2 className="text-2xl font-semibold mb-4">Create New Blog</h2>
-  //         <BlogForm onSubmit={(formData) => console.log(formData)} />
-  //       </div>
-  //       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  //         {blogList.map((blog) => (
-  //           <div
-  //             key={blog.id}
-  //             className="bg-white p-4 border rounded-lg shadow-md"
-  //           >
-  //             <h2 className="text-xl font-semibold">{blog.title}</h2>
-  //             <p className="text-gray-700">{blog.content.slice(0, 100)}...</p>
-  //             <div className="mt-4 flex justify-between">
-  //               <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-  //                 Edit
-  //               </button>
-  //               <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-  //                 Delete
-  //               </button>
-  //             </div>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
+  return (
+    <div className="">
+      <div className="space-y-3 md:grid md:grid-cols-6 *:shadow-lg md:gap-4 md:grid-rows-3">
+        <div className="rounded-xl p-10 flex flex-col hover:shadow-none items-center justify-center bg-gray-50 border-2 border-gray-200 text-center">
+          <p className="text-6xl font-bold">{blogs.length}</p>
+          <p className="text-gray-500 capitalize font-semibold">Total Posts</p>
+        </div>
+        <div className="rounded-xl p-10  flex  flex-col hover:shadow-none  items-center justify-center border-2 md:col-span-2 border-gray-200 bg-gray-50 text-center">
+          <p className="text-6xl font-bold">
+            {blogs.reduce((sum, curr) => sum + curr.likes.length, 0)}
+          </p>
+          <p className="text-gray-500 capitalize font-semibold">
+            Total number of likes on all posts
+          </p>
+        </div>
+        <div className="rounded-xl p-10 border-2 md:col-span-3 flex flex-col hover:shadow-none  items-center justify-center  border-gray-200 bg-gray-50 text-center">
+          <p className="text-6xl md:text-8xl font-bold">
+            {blogs
+              .map((b) =>
+                b.ratings.length <= 0
+                  ? 0
+                  : b.ratings.reduce((sum, curr) => sum + curr.value, 0) /
+                  b.ratings.length,
+              )
+              .reduce((sum, curr) => sum + curr, 0)}
+          </p>
+          <p className="text-gray-500 capitalize font-semibold">
+            Average rating of all blogs
+          </p>
+        </div>
+        <div className="rounded-xl border-2 md:col-span-5 md:row-span-2 overflow-y-auto border-gray-200 p-2 hover:shadow-none  text-center">
+          <BlogManagement
+            categories={categories}
+            blogs={blogs.map(
+              ({
+                id,
+                title,
+                content,
+                categoryId,
+                tags,
+                uploaderId,
+                category,
+                uploader,
+              }) => ({
+                id,
+                title,
+                content,
+                categoryId,
+                tags,
+                uploaderId,
+                category,
+                uploader,
+              }),
+            )}
+          />
+        </div>
+        <Link
+          className="rounded-xl bg-gray-800 text-gray-200 hover:shadow-none  flex flex-col items-center justify-center p-10 border-2  border-gray-200 text-center"
+          href="/editor"
+        >
+          <Plus className="w-14 h-14 " />
+          <p className="capitalize text-2xl font-semibold">Write Blog</p>
+        </Link>
+        <div className="rounded-xl p-10 flex flex-col hover:shadow-none items-center justify-center bg-gray-50 border-2 border-gray-200 text-center">
+          <p className="text-6xl font-bold">
+            {blogs.map((b) => calScore(b)).reduce((sum, curr) => sum + curr)}
+          </p>
+          <p className="text-gray-500 capitalize font-semibold">
+            Tranding Score
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }

@@ -20,6 +20,9 @@ export default function Header() {
             <li>
               <Link href="/about">About</Link>
             </li>
+            <li>
+              <Link href="/dashboard/user">Dashboard</Link>
+            </li>
           </ul>
         </nav>
       </div>
@@ -57,6 +60,11 @@ export default function Header() {
             <li>
               <Link href="/about" onClick={() => setIsOpen(false)}>
                 About
+              </Link>
+            </li>
+            <li>
+              <Link href="/dashboard/user" onClick={() => setIsOpen(false)}>
+                Dashboard
               </Link>
             </li>
             <li>

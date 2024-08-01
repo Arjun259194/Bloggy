@@ -52,9 +52,12 @@ export default async function page({ params: { id } }: Props) {
         </div>
         <Separator />
         <div className="space-y-5 mt-5">
-          {blog.comments.map(({ content, user }) => {
+          {blog.comments.map(({ content, user }, i) => {
             return (
-              <div className="p-4 rounded-lg border border-gray-300 bg-white shadow-lg hover:shadow-md transition-shadow duration-300 max-w-2xl">
+              <div
+                key={i}
+                className="p-4 rounded-lg border border-gray-300 bg-white shadow-lg hover:shadow-md transition-shadow duration-300 max-w-2xl"
+              >
                 <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                   <span className="text-lg md:text-xl font-semibold text-gray-900">
                     <Link href={`/user/${user.id}`}>

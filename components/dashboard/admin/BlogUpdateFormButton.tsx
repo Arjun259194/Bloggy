@@ -73,8 +73,12 @@ const BlogUpdateFormButton: FC<Props> = ({ blog, categories }) => {
                 id="categoryId"
                 onChange={change}
               >
-                {categories.map((s) => (
-                  <option selected={state.categoryId === s.id} value={s.id}>
+                {categories.map((s, i) => (
+                  <option
+                    key={i}
+                    selected={state.categoryId === s.id}
+                    value={s.id}
+                  >
                     {s.name}
                   </option>
                 ))}
