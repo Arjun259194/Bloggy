@@ -39,8 +39,9 @@ const RatingButton: React.FC<Props> = (props) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button className="space-x-2" variant="ghost">
           <Star className="w-6 h-6 mr-1" />
+          <span>Rating</span>
         </Button>
       </DialogTrigger>
       <DialogContent>

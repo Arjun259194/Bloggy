@@ -1,3 +1,4 @@
+import SearchBlog from "@/components/dashboard/user/SearchBlog";
 import BlogCard from "@/components/UI/BlogCard";
 import TrandingBlog from "@/components/UI/TrandingBlog";
 import prisma from "@/lib/db";
@@ -16,6 +17,7 @@ export default async function page() {
   return (
     <div className="overflow-y-auto md:grid md:grid-cols-4 md:gap-5">
       <div className="md:col-span-3 space-y-3">
+        <SearchBlog blogs={blogs} />
         {blogs.map((b, i) => {
           return <BlogCard key={i} {...b} sessionUserId={id} />;
         })}

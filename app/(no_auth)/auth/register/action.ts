@@ -2,7 +2,6 @@
 import prisma from "@/lib/db";
 import { PasswordHash } from "@/lib/hash";
 import { registerFormSchema } from "@/lib/schema";
-import { revalidatePath } from "next/cache";
 
 const action = async (formData: FormData) => {
   const obj = {
@@ -24,7 +23,7 @@ const action = async (formData: FormData) => {
 
   if (!parsedObj.success) {
     console.error(parsedObj.error.message);
-    throw new Error("Not valid form data");
+    throw new Error(parsedObj.error.message);
   }
 
   const { data } = parsedObj;

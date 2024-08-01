@@ -23,15 +23,6 @@ const BlogCard: React.FC<Props> = (props) => {
     const p = likeBlog(props.sessionUserId, props.id);
     toastPromise(p);
   };
-
-  const handleRate = () => {
-    console.log("Rate button clicked");
-  };
-
-  const handleShare = () => {
-    console.log("Share button clicked");
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 100, x: -200 }}

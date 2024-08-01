@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 import { Metadata } from "next";
 import "../globals.css";
 import { getSessionUser } from "@/lib/auth";
+import { SidebarWrapper } from "@/components/UI/SideBarWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default async function AuthLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster />
-        <main>{children}</main>
+ <SidebarWrapper>
+      <main className="flex-grow p-4 md:p-6 overflow-y-auto">{children}</main>
+    </SidebarWrapper>
       </body>
     </html>
   );

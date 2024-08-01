@@ -1,7 +1,8 @@
 import BlogPostAction from "@/components/BlogPostAction";
+import CommentButton from "@/components/dashboard/user/CommentButton";
 import NoBlogFound from "@/components/NoBlogFound";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TracingBeam } from "@/components/ui/TracingBeam";
 import { getSessionUser } from "@/lib/auth";
 import prisma from "@/lib/db";
 import Link from "next/link";
@@ -15,35 +16,40 @@ type Props = {
 export default async function page({ params: { id } }: Props) {
   const u = await getSessionUser();
   if (!u) redirect("/auth/login");
+
   const blog = await prisma.blog.findFirst({
     where: { id },
     include: {
       likes: true,
-      comments: {
-        include: {
-          user: true,
-        },
-      },
+      comments: { include: { user: true } },
       ratings: true,
+      uploader: true,
     },
   });
+
   if (!blog) return <NoBlogFound />;
   return (
     <div className="container mx-auto md:w-1/2 p-2">
       <h1 className="text-3xl md:text-6xl text-center capitalize mb-10 text-gray-950 font-bold">
         {blog.title}
       </h1>
+      <div className="flex justify-end text-gray-600 font-semibold text-lg md:text-xl">
+        <Link href={`/user/${blog.uploaderId}`}>-{blog.uploader.name}</Link>
+      </div>
       <Separator />
       <BlogPostAction sessionUserId={u.id} {...blog} />
       <Separator />
-      <TracingBeam>
-        <Markdown className="prose md:prose-lg mx-auto my-5">
-          {blog.content}
-        </Markdown>
-      </TracingBeam>
+      <Markdown className="prose md:prose-lg mx-auto my-5">
+        {blog.content}
+      </Markdown>
       <Separator />
       <div className="mt-20">
-        <h2 className="text-4xl capitalize font-semibold">Comments</h2>
+        <div className="flex justify-between">
+          <h2 className="text-4xl capitalize font-semibold">Comments</h2>
+          <CommentButton userId={u.id} blogId={blog.id}>
+            <Button>Comment</Button>
+          </CommentButton>
+        </div>
         <Separator />
         <div className="space-y-5 mt-5">
           {blog.comments.map(({ content, user }) => {

@@ -12,7 +12,7 @@ interface Props {
   blogs: CompleteBlog[];
 }
 
-function calScore(b: CompleteBlog, LIKE_WAIGHT = 1, RATING_WAIGHT = 2): number {
+export function calScore(b: CompleteBlog, LIKE_WAIGHT = 1, RATING_WAIGHT = 2): number {
   const totalLikes = b.likes.length;
   const averageRating =
     b.ratings.length > 0

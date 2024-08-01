@@ -11,7 +11,7 @@ export default async function action(formData: FormData) {
     password: formData.get("password"),
   });
 
-  if (!parsedObj.success) throw new Error("Not valid form data");
+  if (!parsedObj.success) throw new Error(parsedObj.error.message);
 
   const { email, password } = parsedObj.data;
 

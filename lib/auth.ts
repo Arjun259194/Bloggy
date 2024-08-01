@@ -15,7 +15,9 @@ export async function getSessionUser() {
     if (!userID) return undefined;
 
     return (
-      (await prisma.user.findFirst({ where: { id: userID } })) ?? undefined
+      (await prisma.user.findFirst({
+        where: { id: userID },
+      })) ?? undefined
     );
   } catch (err) {
     console.error("Error while getting session user: ", err);

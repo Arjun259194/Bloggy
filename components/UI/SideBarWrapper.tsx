@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { toastPromise } from "@/util";
 
 const links = [
   {
@@ -65,7 +66,14 @@ export function SidebarWrapper({ children }: { children: ReactNode }) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button size="icon" variant="outline" onClick={logout}>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    onClick={() => {
+                      const p = logout();
+                      toastPromise(p, () => "Logged out");
+                    }}
+                  >
                     <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
                   </Button>
                 </TooltipTrigger>
