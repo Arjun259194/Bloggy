@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import { Toaster } from "react-hot-toast";
 import { Metadata } from "next";
 import "../globals.css";
-import Header from "@/components/UI/AuthHeader";
 import { getSessionUser } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,6 +15,8 @@ export const metadata: Metadata = {
 export default async function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+
+  // this code is responsible for redirecting unauthorized users
   const user = await getSessionUser();
   if (!user) redirect("/auth/login");
 
@@ -23,7 +24,6 @@ export default async function AuthLayout({
     <html lang="en">
       <body className={inter.className}>
         <Toaster />
-        <Header />
         <main>{children}</main>
       </body>
     </html>

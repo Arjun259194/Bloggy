@@ -1,6 +1,15 @@
 import { Blog, Category, User } from "@prisma/client";
 import { FC } from "react";
 import BlogAction from "./BlogAction";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Link from "next/link";
 
 interface Props {
   blogs: (Blog & {
@@ -19,33 +28,57 @@ const BlogManagement: FC<Props> = async ({ blogs, categories }) => {
           No Data
         </div>
       ) : (
-        <table className="w-full bg-white rounded shadow">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Uploader</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Uploader</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {blogs.map((blog, i) => (
-              <tr key={i}>
-                <td className="text-center">{blog.title}</td>
-                <td className="text-center">
-                  {blog?.category?.name ?? "Not assigned"}
-                </td>
-                <td className="text-center">{blog.uploader.name}</td>
-                <td className="text-center space-x-3">
+              <TableRow key={i}>
+                <TableCell>
+                  <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
+                </TableCell>
+                <TableCell>{blog?.category?.name ?? "Not assigned"}</TableCell>
+                <TableCell>{blog.uploader.name}</TableCell>
+                <TableCell className="md:space-x-3">
                   <BlogAction categories={categories} blog={blog} />
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       )}
     </div>
   );
 };
+// <table className="w-full bg-white rounded shadow">
+//   <thead>
+//     <tr>
+//       <th>Title</th>
+//       <th>Category</th>
+//       <th>Uploader</th>
+//       <th>Actions</th>
+//     </tr>
+//   </thead>
+//   <tbody>
+//     {blogs.map((blog, i) => (
+//       <tr key={i}>
+//         <td className="text-center">{blog.title}</td>
+//         <td className="text-center">
+//           {blog?.category?.name ?? "Not assigned"}
+//         </td>
+//         <td className="text-center">{blog.uploader.name}</td>
+//         <td className="text-center space-x-3">
+//           <BlogAction categories={categories} blog={blog} />
+//         </td>
+//       </tr>
+//     ))}
+//   </tbody>
+// </table>
 
 export default BlogManagement;

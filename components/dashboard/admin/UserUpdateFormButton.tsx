@@ -18,7 +18,7 @@ interface Props {
   user: User;
 }
 
-const UserUpdateFormButton: FC<Props> = ({ user}) => {
+const UserUpdateFormButton: FC<Props> = ({ user }) => {
   const [state, change, reset] = useForm(user);
 
   return (
@@ -34,7 +34,7 @@ const UserUpdateFormButton: FC<Props> = ({ user}) => {
           </DialogDescription>
           <form
             action={() => {
-              toastPromise(updateUser(state), () => "updated")
+              toastPromise(updateUser(state), () => "updated");
             }}
             className="space-y-4 p-4"
           >

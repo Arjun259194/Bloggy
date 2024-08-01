@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { useState } from "react";
@@ -25,12 +25,12 @@ export default function Header() {
       </div>
       <div className="flex items-center space-x-3">
         <div className="hidden md:flex space-x-3">
-          <Link href="/auth/register">
-            <Button variant="secondary">Register</Button>
-          </Link>
-          <Link href="/auth/login">
-            <Button>Login</Button>
-          </Link>
+          <Button asChild variant="secondary">
+            <Link href="/auth/register">Register</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/auth/login">Login</Link>
+          </Button>
         </div>
         <button
           className="md:hidden flex items-center px-3 py-2 border rounded text-gray-500 border-gray-500"
@@ -50,10 +50,14 @@ export default function Header() {
         <nav className="md:hidden z-40 absolute top-16 left-0 w-full bg-white shadow-md">
           <ul className="flex flex-col items-center space-y-4 py-4">
             <li>
-              <Link href="/" onClick={() => setIsOpen(false)}>Home</Link>
+              <Link href="/" onClick={() => setIsOpen(false)}>
+                Home
+              </Link>
             </li>
             <li>
-              <Link href="/about" onClick={() => setIsOpen(false)}>About</Link>
+              <Link href="/about" onClick={() => setIsOpen(false)}>
+                About
+              </Link>
             </li>
             <li>
               <Link href="/auth/register" onClick={() => setIsOpen(false)}>

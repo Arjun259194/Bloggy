@@ -1,6 +1,6 @@
-'use client'
+"use client";
 import { toastPromise } from "@/util";
-import action from "./logout";
+import { logout } from "@/lib/actions";
 import { Button } from "../ui/button";
 
 export default function LogoutButton() {
@@ -9,7 +9,7 @@ export default function LogoutButton() {
       variant="secondary"
       disabled={false}
       onClick={() => {
-        const p = action();
+        const p = logout();
         toastPromise(p);
       }}
     >
