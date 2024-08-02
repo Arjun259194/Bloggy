@@ -70,7 +70,7 @@ Start writting`,
           <Separator />
           <textarea
             placeholder="Content"
-            className="p-1 border-2 border-red-500 focus:outline-none bg-gray-100 text-lg w-full min-h-96"
+            className="p-1 focus:outline-none bg-gray-100 text-lg w-full min-h-96"
             value={state.content}
             onChange={change}
             name="content"
