@@ -18,7 +18,7 @@ const BlogEditor: React.FC<Props> = ({ user, categories }) => {
     title: "Untitled",
     content: `# Hello
 
-Start writting`,
+Start writing your blog here using markdown syntax.`,
     categoryId: "",
   });
   return (
@@ -57,7 +57,7 @@ Start writting`,
               onChange={change}
               name="categoryId"
               id="categoryId"
-              className="col-span-2"
+              className="col-span-2 border-2 border-gray-300 rounded-xl"
             >
               <option value="">Select category</option>
               {categories.map((c) => (
@@ -80,6 +80,7 @@ Start writting`,
         </form>
       </div>
       <div>
+        <h2 className="text-3xl capitalize font-bold">Preview</h2>
         <Markdown className="prose md:prose-lg mx-auto my-5">
           {state.content}
         </Markdown>

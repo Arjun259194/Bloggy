@@ -16,6 +16,11 @@ export default async function page() {
     prisma.category.findMany(),
   ]);
 
+  const allBlogScoreArray = blogs.map((b) => calScore(b));
+  const totalScore =
+    allBlogScoreArray.length > 0
+      ? allBlogScoreArray.reduce((sum, curr) => sum + curr)
+      : 0;
   return (
     <div className="">
       <div className="space-y-3 md:grid md:grid-cols-6 *:shadow-lg md:gap-4 md:grid-rows-3">
@@ -31,14 +36,14 @@ export default async function page() {
             Total number of likes on all posts
           </p>
         </div>
-        <div className="rounded-xl p-10 border-2 md:col-span-3 flex flex-col hover:shadow-none  items-center justify-center  border-gray-200 bg-gray-50 text-center">
+        <div className="rounded-xl p-9 border-2 md:col-span-3 flex flex-col hover:shadow-none  items-center justify-center  border-gray-200 bg-gray-50 text-center">
           <p className="text-6xl md:text-8xl font-bold">
             {blogs
               .map((b) =>
                 b.ratings.length <= 0
                   ? 0
                   : b.ratings.reduce((sum, curr) => sum + curr.value, 0) /
-                  b.ratings.length,
+                    b.ratings.length,
               )
               .reduce((sum, curr) => sum + curr, 0)}
           </p>
@@ -80,9 +85,7 @@ export default async function page() {
           <p className="capitalize text-2xl font-semibold">Write Blog</p>
         </Link>
         <div className="rounded-xl p-10 flex flex-col hover:shadow-none items-center justify-center bg-gray-50 border-2 border-gray-200 text-center">
-          <p className="text-6xl font-bold">
-            {blogs.map((b) => calScore(b)).reduce((sum, curr) => sum + curr)}
-          </p>
+          <p className="text-6xl font-bold">{totalScore}</p>
           <p className="text-gray-500 capitalize font-semibold">
             Tranding Score
           </p>
