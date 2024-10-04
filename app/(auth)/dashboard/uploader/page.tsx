@@ -30,7 +30,7 @@ export default async function page() {
         </div>
         <div className="rounded-xl p-10  flex  flex-col hover:shadow-none  items-center justify-center border-2 md:col-span-2 border-gray-200 bg-gray-50 text-center">
           <p className="text-6xl font-bold">
-            {blogs.reduce((sum, curr) => sum + curr.likes.length, 0)}
+            {blogs.reduce((sum, curr) => sum + curr.likes.length, 0).toFixed(2)}
           </p>
           <p className="text-gray-500 capitalize font-semibold">
             Total number of likes on all posts
@@ -45,7 +45,8 @@ export default async function page() {
                   : b.ratings.reduce((sum, curr) => sum + curr.value, 0) /
                     b.ratings.length,
               )
-              .reduce((sum, curr) => sum + curr, 0)}
+              .reduce((sum, curr) => sum + curr, 0)
+              .toFixed(2)}
           </p>
           <p className="text-gray-500 capitalize font-semibold">
             Average rating of all blogs
@@ -85,7 +86,7 @@ export default async function page() {
           <p className="capitalize text-2xl font-semibold">Write Blog</p>
         </Link>
         <div className="rounded-xl p-10 flex flex-col hover:shadow-none items-center justify-center bg-gray-50 border-2 border-gray-200 text-center">
-          <p className="text-6xl font-bold">{totalScore}</p>
+          <p className="text-6xl font-bold">{totalScore.toFixed(2)}</p>
           <p className="text-gray-500 capitalize font-semibold">
             Tranding Score
           </p>

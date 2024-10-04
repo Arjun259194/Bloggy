@@ -1,20 +1,15 @@
-import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import CardSection from "@/components/ui/CardSection";
 import CardsCarousel from "@/components/ui/catCards";
 import { FlipWords } from "@/components/ui/flipWord";
 import { HeroParallax } from "@/components/ui/hero-parallex";
 import { InfiniteMovingCards } from "@/components/ui/InfiniteMovingCards";
 import { heroCat } from "@/lib/data";
-import Image from "next/image";
-import Link from "next/link";
 
 const blogReviews = [
   {
     quote:
       "This blog has completely transformed my mornings! The daily tips and insights are both inspiring and practical. I feel more motivated and organized each day.",
-    name: "Emma Johnson",
-    title: "Productivity Enthusiast",
-  },
+    name: "Emma Johnson", title: "Productivity Enthusiast", },
   {
     quote:
       "I never knew I needed this blog until I stumbled upon it. The articles are thought-provoking and well-researched. It's a treasure trove of knowledge.",

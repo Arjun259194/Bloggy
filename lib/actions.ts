@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "./db";
-import { Blog, Category, Prisma, User } from "@prisma/client";
+import { Blog, Category, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { UserUpdateFnData } from "./types";
